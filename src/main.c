@@ -22,7 +22,7 @@
  * License along with this library.
  */
 #include <nrf.h>
-
+//test
 #ifdef BLE
 #include <nrf_soc.h>
 #endif
