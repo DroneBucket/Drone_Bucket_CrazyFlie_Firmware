@@ -106,7 +106,7 @@ clean:
 
 
 ## Flash and debug targets
-
+## I m the best
 flash: $(PROGRAM).hex
 	$(OPENOCD) -d2 -f $(OPENOCD_INTERFACE) -f $(OPENOCD_TARGET) -c init -c targets -c "reset halt" \
                  -c "flash write_image erase $(PROGRAM).hex" -c "verify_image $(PROGRAM).hex" \

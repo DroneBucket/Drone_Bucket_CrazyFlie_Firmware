@@ -24,7 +24,7 @@
 
 /* Commit Test */
 #include <nrf.h>
-
+//test
 #ifdef BLE
 #include <nrf_soc.h>
 #endif
@@ -134,6 +134,7 @@ int main()
   return 0;
 }
 
+// First commit
 void mainloop()
 {
   static struct syslinkPacket slRxPacket;
