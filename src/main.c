@@ -131,7 +131,7 @@ int main()
 
   return 0;
 }
-// Commented main loop
+
 void mainloop()
 {
   static struct syslinkPacket slRxPacket;
