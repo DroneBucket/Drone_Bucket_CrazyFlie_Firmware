@@ -9,7 +9,20 @@
         "source": "*.bin",
         "insertTag": true,
         "destination": "currDir"
+      },
+      {
+        "source": "*.dfu",
+        "insertTag": true,
+        "destination": "currDir"
       }
+    ]
+  },
+  "targets": {
+    "cf1": [
+      "PLATFORM=CF1"
+    ],
+    "cf2": [
+      "PLATFORM=CF2"
     ]
   }
 }
