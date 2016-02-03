@@ -270,25 +270,25 @@ static bool configblockCopyToNewVersion(configblock_t *configblockSaved, configb
 /* Static accessors */
 int configblockGetRadioChannel(void)
 {
-  if (cb_ok)
+  /*if (cb_ok)
     return configblock.radioChannel;
-  else
+  else*/
     return RADIO_CHANNEL;
 }
 
 int configblockGetRadioSpeed(void)
 {
-  if (cb_ok)
+  /*if (cb_ok)
     return configblock.radioSpeed;
-  else
+  else*/
     return RADIO_DATARATE;
 }
 
 uint64_t configblockGetRadioAddress(void)
 {
-  if (cb_ok)
+  /*if (cb_ok)
     return ((uint64_t)configblock.radioAddress_upper << 32) | (uint64_t)configblock.radioAddress_lower;
-  else
+  else*/
     return RADIO_ADDRESS;
 }
 
