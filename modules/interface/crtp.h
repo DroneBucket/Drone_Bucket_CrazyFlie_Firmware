@@ -71,25 +71,6 @@ typedef struct _CRTPPacket
   };
 } __attribute__((packed)) CRTPPacket;
 
-//CRTP PAcket defined by Drone Bucket
-typedef struct _CRTPPacket_Custom {
-	uint8_t size;
-	//header
-	struct {
-		uint8_t id_Tx;
-		uint8_t id_sequence;
-		uint8_t rssi;
-		uint8_t x_coord;
-		uint8_t y_coord;
-		uint8_t z_coord;
-		uint8_t channel :2;
-		uint8_t port :4;
-		uint8_t reserved :2;
-	};
-	//data
-	uint8_t data[CRTP_MAX_DATA_SIZE - 6];
-}__attribute__((packed)) CRTPPacket_Custom;
-
 typedef void (*CrtpCallback)(CRTPPacket *);
 
 /**
