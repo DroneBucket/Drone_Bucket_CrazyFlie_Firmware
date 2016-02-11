@@ -37,13 +37,14 @@
 #define CRTP_IS_NULL_PACKET(P) ((P.header&0xF3)==0xF3)
 
 typedef enum {
-  CRTP_PORT_CONSOLE     = 0x00,
-  CRTP_PORT_PARAM       = 0x02,
-  CRTP_PORT_COMMANDER   = 0x03,
-  CRTP_PORT_MEM         = 0x04,
-  CRTP_PORT_LOG         = 0x05,
-  CRTP_PORT_PLATFORM    = 0x0D,
-  CRTP_PORT_LINK        = 0x0F,
+  CRTP_PORT_CONSOLE     		= 0x00,
+  CRTP_PORT_PARAM       		= 0x02,
+  CRTP_PORT_COMMANDER   		= 0x03,
+  CRTP_PORT_MEM         		= 0x04,
+  CRTP_PORT_LOG         		= 0x05,
+  CRTP_PORT_COMMANDER_ADVANCED  = 0x0A,
+  CRTP_PORT_PLATFORM    		= 0x0D,
+  CRTP_PORT_LINK        		= 0x0F,
 } CRTPPort;
 
 typedef struct _CRTPPacket
