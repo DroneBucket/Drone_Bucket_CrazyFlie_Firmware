@@ -27,7 +27,7 @@ system.o: modules/src/system.c \
  drivers/interface/uart_syslink.h modules/interface/crtp.h \
  drivers/interface/uart1.h drivers/interface/uart2.h \
  modules/interface/comm.h modules/interface/stabilizer.h \
- modules/interface/commander.h hal/interface/usblink.h \
+ modules/interface/commanderadvanced.h hal/interface/usblink.h \
  modules/interface/mem.h hal/interface/proximity.h \
  drivers/interface/watchdog.h config/stm32fxxx.h \
  lib/CMSIS/STM32F4xx/Include/stm32f4xx.h lib/CMSIS/Include/core_cm4.h \
@@ -159,7 +159,7 @@ modules/interface/comm.h:
 
 modules/interface/stabilizer.h:
 
-modules/interface/commander.h:
+modules/interface/commanderadvanced.h:
 
 hal/interface/usblink.h:
 

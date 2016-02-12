@@ -32,7 +32,7 @@
 #include "system.h"
 #include "pm.h"
 #include "stabilizer.h"
-#include "commander.h"
+#include "commanderadvanced.h"
 #include "controller.h"
 #include "sensfusion6.h"
 #include "imu.h"
@@ -257,8 +257,8 @@ static void stabilizerTask(void* param)
 
     if (imu6IsCalibrated())
     {
-      commanderGetRPY(&eulerRollDesired, &eulerPitchDesired, &eulerYawDesired);
-      commanderGetRPYType(&rollType, &pitchType, &yawType);
+      commanderAdvancedGetRPY(&eulerRollDesired, &eulerPitchDesired, &eulerYawDesired);
+      commanderAdvancedGetRPYType(&rollType, &pitchType, &yawType);
 
       // Rate-controled YAW is moving YAW angle setpoint
       if (yawType == RATE) {
@@ -319,12 +319,12 @@ static void stabilizerTask(void* param)
       if (!altHold || !imuHasBarometer())
       {
         // Use thrust from controller if not in altitude hold mode
-        commanderGetThrust(&actuatorThrust);
+        commanderAdvancedGetThrust(&actuatorThrust);
       }
       else
       {
         // Added so thrust can be set to 0 while in altitude hold mode after disconnect
-        commanderWatchdog();
+        commanderAdvancedWatchdog();
       }
 
       /* Call out before performing thrust updates, if any functions would like to influence the thrust. */
@@ -406,7 +406,7 @@ static void stabilizerPreAltHoldComputeThrustCallOut(void)
 static void stabilizerAltHoldUpdate(void)
 {
   // Get altitude hold commands from pilot
-  commanderGetAltHold(&altHold, &setAltHold, &altHoldChange);
+  commanderAdvancedGetAltHold(&altHold, &setAltHold, &altHoldChange);
 
   // Get barometer height estimates
   //TODO do the smoothing within getData
@@ -541,10 +541,10 @@ static void stabilizerRotateYawCarefree(bool reset)
 #ifdef PLATFORM_CF1
 static void stabilizerYawModeUpdate(void)
 {
-  switch (commanderGetYawMode())
+  switch (commanderAdvancedGetYawMode())
   {
     case CAREFREE:
-      stabilizerRotateYawCarefree(commanderGetYawModeCarefreeResetFront());
+      stabilizerRotateYawCarefree(commanderAdvancedGetYawModeCarefreeResetFront());
       break;
     case PLUSMODE:
       // Default in plus mode. Do nothing
@@ -558,10 +558,10 @@ static void stabilizerYawModeUpdate(void)
 #else
 static void stabilizerYawModeUpdate(void)
 {
-  switch (commanderGetYawMode())
+  switch (commanderAdvancedGetYawMode())
   {
     case CAREFREE:
-      stabilizerRotateYawCarefree(commanderGetYawModeCarefreeResetFront());
+      stabilizerRotateYawCarefree(commanderAdvancedGetYawModeCarefreeResetFront());
       break;
     case PLUSMODE:
       stabilizerRotateYaw(45 * M_PI / 180);

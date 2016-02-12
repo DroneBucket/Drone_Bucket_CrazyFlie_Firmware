@@ -39,7 +39,7 @@
 #include "log.h"
 #include "adc.h"
 #include "ledseq.h"
-#include "commander.h"
+#include "commanderadvanced.h"
 #include "sound.h"
 
 typedef struct _PmSyslinkInfo
@@ -341,7 +341,7 @@ void pmTask(void *param)
         break;
       case battery:
         {
-          if ((commanderGetInactivityTime() > PM_SYSTEM_SHUTDOWN_TIMEOUT))
+          if ((commanderAdvancedGetInactivityTime() > PM_SYSTEM_SHUTDOWN_TIMEOUT))
           {
             pmSystemShutdown();
           }

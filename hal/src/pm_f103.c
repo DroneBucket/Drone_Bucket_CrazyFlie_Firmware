@@ -39,7 +39,7 @@
 #include "log.h"
 #include "adc.h"
 #include "ledseq.h"
-#include "commander.h"
+#include "commanderadvanced.h"
 #include "nrf24link.h"
 
 // Power managment pins
@@ -489,7 +489,7 @@ void pmTask(void *param)
         break;
       case battery:
         {
-          if ((commanderGetInactivityTime() > PM_SYSTEM_SHUTDOWN_TIMEOUT))
+          if ((commanderAdvancedGetInactivityTime() > PM_SYSTEM_SHUTDOWN_TIMEOUT))
           {
             pmSystemShutdown();
           }

@@ -47,6 +47,16 @@ struct CommanderAdvancedCrtpValues {
 	uint16_t thrust;
 }__attribute__((packed));
 
+/*
+struct CommanderAdvancedCrtpValues
+{
+  float roll;
+  float pitch;
+  float yaw;
+  uint16_t thrust;
+} __attribute__((packed));
+*/
+
 static struct CommanderAdvancedCrtpValues targetVal[2];
 static bool isInit;
 static int side = 0;
@@ -71,7 +81,8 @@ void commanderAdvancedInit(void) {
 		return;
 
 	crtpInit();
-	crtpRegisterPortCB(CRTP_PORT_COMMANDER_ADVANCED, commanderAdvancedCrtpCB);
+	//crtpRegisterPortCB(CRTP_PORT_COMMANDER_ADVANCED, commanderAdvancedCrtpCB);
+	crtpRegisterPortCB(CRTP_PORT_COMMANDER, commanderAdvancedCrtpCB);
 
 	lastUpdate = xTaskGetTickCount();
 	isInactive = true;

@@ -61,7 +61,7 @@ pm_f405.o: hal/src/pm_f405.c config/stm32fxxx.h \
  lib/FreeRTOS/include/queue.h config/config.h modules/interface/system.h \
  hal/interface/pm.h drivers/interface/adc.h hal/interface/syslink.h \
  drivers/interface/led.h modules/interface/log.h hal/interface/ledseq.h \
- modules/interface/commander.h modules/interface/sound.h
+ modules/interface/commanderadvanced.h modules/interface/sound.h
 
 config/stm32fxxx.h:
 
@@ -225,6 +225,6 @@ modules/interface/log.h:
 
 hal/interface/ledseq.h:
 
-modules/interface/commander.h:
+modules/interface/commanderadvanced.h:
 
 modules/interface/sound.h:

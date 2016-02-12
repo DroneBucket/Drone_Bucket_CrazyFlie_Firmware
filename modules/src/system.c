@@ -50,7 +50,7 @@
 #include "uart2.h"
 #include "comm.h"
 #include "stabilizer.h"
-#include "commander.h"
+#include "commanderadvanced.h"
 #include "console.h"
 #include "usblink.h"
 #include "mem.h"
@@ -167,7 +167,7 @@ void systemTask(void *arg)
 #endif //ndef USE_RADIOLINK_CRTP
 
   commInit();
-  commanderInit();
+  commanderAdvancedInit();
   stabilizerInit();
 #ifdef PLATFORM_CF2
   deckInit();
@@ -183,7 +183,7 @@ void systemTask(void *arg)
   pass &= systemTest();
   pass &= configblockTest();
   pass &= commTest();
-  pass &= commanderTest();
+  pass &= commanderAdvancedTest();
   pass &= stabilizerTest();
 #ifdef PLATFORM_CF2
   pass &= deckTest();

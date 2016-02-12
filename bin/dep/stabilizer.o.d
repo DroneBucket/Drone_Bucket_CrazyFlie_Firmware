@@ -27,8 +27,8 @@ stabilizer.o: modules/src/stabilizer.c /usr/arm-none-eabi/include/math.h \
  lib/FreeRTOS/include/list.h config/config.h modules/interface/system.h \
  hal/interface/pm.h drivers/interface/adc.h lib/FreeRTOS/include/semphr.h \
  lib/FreeRTOS/include/queue.h hal/interface/syslink.h \
- modules/interface/stabilizer.h modules/interface/commander.h \
- modules/interface/controller.h modules/interface/commander.h \
+ modules/interface/stabilizer.h modules/interface/commanderadvanced.h \
+ modules/interface/controller.h modules/interface/commanderadvanced.h \
  modules/interface/sensfusion6.h hal/interface/imu.h \
  utils/interface/filter.h hal/interface/imu_types.h \
  drivers/interface/motors.h config/stm32fxxx.h \
@@ -154,11 +154,11 @@ hal/interface/syslink.h:
 
 modules/interface/stabilizer.h:
 
-modules/interface/commander.h:
+modules/interface/commanderadvanced.h:
 
 modules/interface/controller.h:
 
-modules/interface/commander.h:
+modules/interface/commanderadvanced.h:
 
 modules/interface/sensfusion6.h:
 

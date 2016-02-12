@@ -27,7 +27,7 @@
 #define CONTROLLER_H_
 
 #include <stdbool.h>
-#include "commander.h"
+#include "commanderadvanced.h"
 
 
 void controllerInit(void);
