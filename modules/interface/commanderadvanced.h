@@ -28,6 +28,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "config.h"
+#include "crtp.h"
+
 
 #ifdef PLATFORM_CF1
   #define DEFUALT_YAW_MODE  PLUSMODE
@@ -60,6 +62,8 @@ typedef enum
 void commanderAdvancedInit(void);
 bool commanderAdvancedTest(void);
 void commanderAdvancedWatchdog(void);
+void createCommanderAdvancedPacket(CRTPPacket* p);
+void processCommanderAdvanced(void);
 uint32_t commanderAdvancedGetInactivityTime(void);
 void commanderAdvancedGetRPY(float* eulerRollDesired, float* eulerPitchDesired, float* eulerYawDesired);
 void commanderAdvancedGetRPYType(RPYType* rollType, RPYType* pitchType, RPYType* yawType);

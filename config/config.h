@@ -144,6 +144,9 @@
 #define RADIO_DATARATE RADIO_RATE_250K
 #define RADIO_ADDRESS 0xE7E7E7E7E7ULL
 
+//Configuration of the CF
+#define CRAZYFLIE_ID 1
+
 /**
  * \def ACTIVATE_AUTO_SHUTDOWN
  * Will automatically shot of system if no radio activity

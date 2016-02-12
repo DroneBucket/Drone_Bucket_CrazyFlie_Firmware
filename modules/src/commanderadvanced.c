@@ -25,11 +25,13 @@
  */
 #include "FreeRTOS.h"
 #include "task.h"
+#include <string.h>
+
 
 #include "commanderadvanced.h"
-#include "crtp.h"
 #include "configblock.h"
 #include "param.h"
+#include "config.h"
 
 #define MIN_THRUST  1000
 #define MAX_THRUST  60000
@@ -48,16 +50,17 @@ struct CommanderAdvancedCrtpValues {
 }__attribute__((packed));
 
 /*
-struct CommanderAdvancedCrtpValues
-{
-  float roll;
-  float pitch;
-  float yaw;
-  uint16_t thrust;
-} __attribute__((packed));
-*/
+ struct CommanderAdvancedCrtpValues
+ {
+ float roll;
+ float pitch;
+ float yaw;
+ uint16_t thrust;
+ } __attribute__((packed));
+ */
 
 static struct CommanderAdvancedCrtpValues targetVal[2];
+static struct CommanderAdvancedCrtpValues lastReceived;
 static bool isInit;
 static int side = 0;
 static uint32_t lastUpdate;
@@ -99,11 +102,44 @@ static void commanderAdvancedCrtpCB(CRTPPacket* pk) {
 	targetVal[!side] = *((struct CommanderAdvancedCrtpValues*) pk->data);
 	side = !side;
 
+	lastReceived = targetVal[side];
+	targetVal[side].id = CRAZYFLIE_ID;
+
 	if (targetVal[side].thrust == 0) {
 		thrustLocked = false;
 	}
 
+	//TODO
+	//Appliquer des calculs (triangularisation) pour redefinir x, y, z
+	processCommanderAdvanced();
+
+	createCommanderAdvancedPacket(pk);
+	crtpSendPacket(pk);
+
+
 	commanderAdvancedWatchdogReset();
+}
+
+
+//TODO
+void processCommanderAdvanced(void){
+	targetVal[side].x = 2;
+	targetVal[side].y = 0;
+	targetVal[side].z = 2;
+}
+
+void createCommanderAdvancedPacket(CRTPPacket* p){
+	struct CommanderAdvancedCrtpValues currentValues = targetVal[side];
+
+	p -> data[0] = currentValues.id;
+	p -> data[3] = currentValues.rssi;
+	memcpy(&(p -> data[4]), &currentValues.x, 2);
+	memcpy(&(p -> data[6]), &currentValues.y, 2);
+	memcpy(&(p -> data[8]), &currentValues.z, 2);
+	memcpy(&(p -> data[10]), &currentValues.roll, 4);
+	memcpy(&(p -> data[14]), &currentValues.pitch, 4);
+	memcpy(&(p -> data[18]), &currentValues.yaw, 4);
+	memcpy(&(p -> data[22]), &currentValues.thrust, 2);
 }
 
 void commanderAdvancedWatchdog(void) {
@@ -144,7 +180,8 @@ void commanderAdvancedGetRPY(float* eulerRollDesired, float* eulerPitchDesired,
 	*eulerYawDesired = targetVal[usedSide].yaw;
 }
 
-void commanderAdvancedGetAltHold(bool* altHold, bool* setAltHold, float* altHoldChange) {
+void commanderAdvancedGetAltHold(bool* altHold, bool* setAltHold,
+		float* altHoldChange) {
 	*altHold = altHoldMode; // Still in altitude hold mode
 	*setAltHold = !altHoldModeOld && altHoldMode; // Hover just activated
 	*altHoldChange =

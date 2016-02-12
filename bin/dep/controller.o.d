@@ -18,8 +18,9 @@ controller.o: modules/src/controller.c \
  lib/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h \
  lib/FreeRTOS/include/mpu_wrappers.h modules/interface/controller.h \
  modules/interface/commanderadvanced.h config/config.h \
- modules/interface/pid.h modules/interface/param.h hal/interface/imu.h \
- utils/interface/filter.h hal/interface/imu_types.h
+ modules/interface/crtp.h modules/interface/pid.h \
+ modules/interface/param.h hal/interface/imu.h utils/interface/filter.h \
+ hal/interface/imu_types.h
 
 /usr/lib/gcc/arm-none-eabi/4.9.3/include/stdbool.h:
 
@@ -72,6 +73,8 @@ modules/interface/controller.h:
 modules/interface/commanderadvanced.h:
 
 config/config.h:
+
+modules/interface/crtp.h:
 
 modules/interface/pid.h:
 
