@@ -27,11 +27,16 @@
 #include "task.h"
 #include <string.h>
 
-
 #include "commanderadvanced.h"
 #include "configblock.h"
 #include "param.h"
 #include "config.h"
+#include <inttypes.h>
+
+#include "radiolink.h"
+
+#define DEBUG_MODULE "COMMANDER"
+#include "debug.h"
 
 #define MIN_THRUST  1000
 #define MAX_THRUST  60000
@@ -115,31 +120,30 @@ static void commanderAdvancedCrtpCB(CRTPPacket* pk) {
 
 	createCommanderAdvancedPacket(pk);
 	crtpSendPacket(pk);
-
-
 	commanderAdvancedWatchdogReset();
 }
 
-
 //TODO
-void processCommanderAdvanced(void){
+void processCommanderAdvanced(void) {
 	targetVal[side].x = 2;
-	targetVal[side].y = 0;
-	targetVal[side].z = 2;
+	targetVal[side].y = 3;
+	targetVal[side].z = 7;
 }
 
-void createCommanderAdvancedPacket(CRTPPacket* p){
+void createCommanderAdvancedPacket(CRTPPacket* p) {
 	struct CommanderAdvancedCrtpValues currentValues = targetVal[side];
 
-	p -> data[0] = currentValues.id;
-	p -> data[3] = currentValues.rssi;
-	memcpy(&(p -> data[4]), &currentValues.x, 2);
-	memcpy(&(p -> data[6]), &currentValues.y, 2);
-	memcpy(&(p -> data[8]), &currentValues.z, 2);
-	memcpy(&(p -> data[10]), &currentValues.roll, 4);
-	memcpy(&(p -> data[14]), &currentValues.pitch, 4);
-	memcpy(&(p -> data[18]), &currentValues.yaw, 4);
-	memcpy(&(p -> data[22]), &currentValues.thrust, 2);
+	uint8_t rssi;
+	radiolinkGetRSSI(&rssi);
+	p->data[0] = currentValues.id;
+	p->data[3] = rssi;
+	memcpy(&(p->data[4]), &currentValues.x, 2);
+	memcpy(&(p->data[6]), &currentValues.y, 2);
+	memcpy(&(p->data[8]), &currentValues.z, 2);
+	memcpy(&(p->data[10]), &currentValues.roll, 4);
+	memcpy(&(p->data[14]), &currentValues.pitch, 4);
+	memcpy(&(p->data[18]), &currentValues.yaw, 4);
+	memcpy(&(p->data[22]), &currentValues.thrust, 2);
 }
 
 void commanderAdvancedWatchdog(void) {
