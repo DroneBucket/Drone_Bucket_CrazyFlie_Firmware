@@ -106,8 +106,10 @@ bool commanderAdvancedTest(void) {
 static void commanderAdvancedCrtpCB(CRTPPacket* pk) {
 	targetVal[!side] = *((struct CommanderAdvancedCrtpValues*) pk->data);
 	side = !side;
-
 	lastReceived = targetVal[side];
+	if(targetVal[side].id != 0){
+		DEBUG_PRINT("\n %d receive a trame from ID %d \n", CRAZYFLIE_ID, targetVal[side].id);
+	}
 	targetVal[side].id = CRAZYFLIE_ID;
 
 	if (targetVal[side].thrust == 0) {
