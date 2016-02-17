@@ -54,6 +54,16 @@ struct CommanderAdvancedCrtpValues {
 	uint16_t thrust;
 }__attribute__((packed));
 
+struct trilaterationValues {
+	uint8_t id;
+	uint16_t pid;
+	uint8_t rssi;
+	uint16_t x;
+	uint16_t y;
+	uint16_t z;
+}__attribute__((packed));
+
+struct trilaterationValues dronePosition[3];
 /*
  struct CommanderAdvancedCrtpValues
  {
@@ -127,9 +137,7 @@ static void commanderAdvancedCrtpCB(CRTPPacket* pk) {
 
 //TODO
 void processCommanderAdvanced(void) {
-	targetVal[side].x = 2;
-	targetVal[side].y = 3;
-	targetVal[side].z = 7;
+
 }
 
 void createCommanderAdvancedPacket(CRTPPacket* p) {
@@ -255,9 +263,9 @@ bool commanderAdvancedGetYawModeCarefreeResetFront(void) {
 
 // Params for flight modes
 PARAM_GROUP_START(flightmode) PARAM_ADD(PARAM_UINT8, althold, &altHoldMode)
-PARAM_ADD(PARAM_UINT8, yawMode, &yawMode)
-PARAM_ADD(PARAM_UINT8, yawRst, &carefreeResetFront)
-PARAM_ADD(PARAM_UINT8, stabModeRoll, &stabilizationModeRoll)
-PARAM_ADD(PARAM_UINT8, stabModePitch, &stabilizationModePitch)
-PARAM_ADD(PARAM_UINT8, stabModeYaw, &stabilizationModeYaw)
-PARAM_GROUP_STOP(flightmode)
+		PARAM_ADD(PARAM_UINT8, yawMode, &yawMode)
+		PARAM_ADD(PARAM_UINT8, yawRst, &carefreeResetFront)
+		PARAM_ADD(PARAM_UINT8, stabModeRoll, &stabilizationModeRoll)
+		PARAM_ADD(PARAM_UINT8, stabModePitch, &stabilizationModePitch)
+		PARAM_ADD(PARAM_UINT8, stabModeYaw, &stabilizationModeYaw)
+		PARAM_GROUP_STOP(flightmode)

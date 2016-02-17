@@ -135,8 +135,8 @@ PROJ_OBJ_CF1 += imu_cf1.o pm_f103.o nrf24link.o ow_none.o uart.o
 PROJ_OBJ_CF2 += imu_cf2.o pm_f405.o syslink.o radiolink.o ow_syslink.o proximity.o
 
 # Modules
-PROJ_OBJ += system.o comm.o console.o pid.o crtpservice.o param.o mem.o
-PROJ_OBJ += commander.o commanderadvanced.o controller.o sensfusion6.o stabilizer.o 
+PROJ_OBJ += system.o comm.o console.o pid.o crtpservice.o param.o mem.o 
+PROJ_OBJ += trilateration.o commander.o commanderadvanced.o controller.o sensfusion6.o stabilizer.o 
 PROJ_OBJ += log.o worker.o trigger.o sitaw.o queuemonitor.o
 PROJ_OBJ_CF1 += sound_cf1.o
 PROJ_OBJ_CF2 += platformservice.o sound_cf2.o
