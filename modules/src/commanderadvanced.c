@@ -32,6 +32,7 @@
 #include "param.h"
 #include "config.h"
 #include <inttypes.h>
+#include "trilateration.h"
 
 #include "radiolink.h"
 
@@ -64,6 +65,7 @@ struct trilaterationValues {
 }__attribute__((packed));
 
 struct trilaterationValues dronePosition[3];
+struct coordinate target, terms[3], oldTarget;
 /*
  struct CommanderAdvancedCrtpValues
  {
@@ -106,6 +108,19 @@ void commanderAdvancedInit(void) {
 	isInactive = true;
 	thrustLocked = true;
 	isInit = true;
+	//srand(time(NULL));
+	int maxValue = 320;
+	target.x = 1000;
+	target.y = 1000;
+	target.z = 1500;
+	oldTarget = target;
+	int k = 0;
+	for (k = 0; k < 3; k++) {
+		terms[k].x = 500 * (k + 1);
+		terms[k].y = 500 * (k + 1);
+		terms[k].z = 500 * (k + 1);
+	}
+
 }
 
 bool commanderAdvancedTest(void) {
@@ -137,7 +152,9 @@ static void commanderAdvancedCrtpCB(CRTPPacket* pk) {
 
 //TODO
 void processCommanderAdvanced(void) {
-
+	test(terms,&oldTarget,&target);
+	DEBUG_PRINT("\n result %f %f %f \n", target.x, target.y, target.z);
+	DEBUG_PRINT("\n result %f %f %f \n", oldTarget.x, oldTarget.y, oldTarget.z);
 }
 
 void createCommanderAdvancedPacket(CRTPPacket* p) {
