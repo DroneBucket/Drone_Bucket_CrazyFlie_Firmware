@@ -12,34 +12,35 @@ struct coordinate {
 };
 
 /* Return the difference of two vectors, (vector1 - vector2). */
-coordinate vdiff(const coordinate vector1, const coordinate vector2);
+coordinate vdiff( coordinate vector1,  coordinate vector2);
 
 /* Return the sum of two vectors. */
-coordinate vsum(const coordinate vector1, const coordinate vector2);
+coordinate vsum( coordinate vector1,  coordinate vector2);
 
 /* Multiply vector by a number. */
-coordinate vmul(const coordinate vector, const double n);
+coordinate vmul( coordinate vector,  double n);
 
 /* Divide vector by a number. */
-coordinate vdiv(const coordinate vector, const double n);
+coordinate vdiv( coordinate vector,  double n);
 
 /* Return the Euclidean norm. */
-double vnorm(const coordinate vector);
+double vnorm( coordinate vector);
 
 /* Return the dot product of two vectors. */
-double dot(const coordinate vector1, const coordinate vector2);
+double dot( coordinate vector1,  coordinate vector2);
 
 /* Replace vector with its cross product with another vector. */
-coordinate cross(const coordinate vector1, const coordinate vector2);
+coordinate cross( coordinate vector1,  coordinate vector2);
 
-struct coordinate trilateration(const coordinate p1, const double r1,
-		const coordinate p2, const double r2, const coordinate p3,
-		const double r3, const double maxzero, coordinate target);
+int trilateration(coordinate *  result1, coordinate *  result2,
+		 coordinate p1,  double r1,  coordinate p2,
+		 double r2,  coordinate p3,  double r3,
+		 double maxzero);
 
-struct coordinate getResult(const coordinate result1, const coordinate result2,
-		const coordinate oldPosition);
+struct coordinate getResult( coordinate result1,  coordinate result2,
+		 coordinate oldPosition);
 
-struct coordinate vadd(const coordinate vector, const int n);
+struct coordinate vadd( coordinate vector,  int n);
 
 double computeDistance(struct coordinate a, struct coordinate b);
 
