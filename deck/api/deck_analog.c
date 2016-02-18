@@ -45,7 +45,7 @@ void adcInit(void)
   ADC_StructInit(&ADC_InitStructure);
   ADC_CommonStructInit(&ADC_CommonInitStructure);
 
-  /* enable ADC clock*/
+  /* enable ADC clock */
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC2, ENABLE);
 
   /* init ADCs in independent mode, div clock by two */
