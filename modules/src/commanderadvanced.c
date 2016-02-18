@@ -131,6 +131,7 @@ static void commanderAdvancedCrtpCB(CRTPPacket* pk) {
 	processCommanderAdvanced();
 
 	createCommanderAdvancedPacket(pk);
+
 	crtpSendPacket(pk);
 	commanderAdvancedWatchdogReset();
 }
@@ -140,20 +141,44 @@ void processCommanderAdvanced(void) {
 
 }
 
-void createCommanderAdvancedPacket(CRTPPacket* p) {
-	struct CommanderAdvancedCrtpValues currentValues = targetVal[side];
+void createCommanderAdvancedPacket(CRTPPacket* p){
+	// targetValues represent the new data received in this instant
+	struct CommanderAdvancedCrtpValues targetValues = targetVal[side];
 
-	uint8_t rssi;
-	radiolinkGetRSSI(&rssi);
-	p->data[0] = currentValues.id;
-	p->data[3] = rssi;
-	memcpy(&(p->data[4]), &currentValues.x, 2);
-	memcpy(&(p->data[6]), &currentValues.y, 2);
-	memcpy(&(p->data[8]), &currentValues.z, 2);
-	memcpy(&(p->data[10]), &currentValues.roll, 4);
-	memcpy(&(p->data[14]), &currentValues.pitch, 4);
-	memcpy(&(p->data[18]), &currentValues.yaw, 4);
-	memcpy(&(p->data[22]), &currentValues.thrust, 2);
+	p -> data[0] = targetValues.id;
+	p -> data[3] = targetValues.rssi;
+	memcpy(&(p -> data[4]), &targetValues.x, 2);
+	memcpy(&(p -> data[6]), &targetValues.y, 2);
+	memcpy(&(p -> data[8]), &targetValues.z, 2);
+	memcpy(&(p -> data[10]), &targetValues.roll, 4);
+	memcpy(&(p -> data[14]), &targetValues.pitch, 4);
+	memcpy(&(p -> data[18]), &targetValues.yaw, 4);
+	memcpy(&(p -> data[22]), &targetValues.thrust, 2);
+}
+
+/**
+ * Updates packet based on the received coordinates. Changes the yaw value to turn in the right direction.
+ */
+void updateCommanderAdvancedPacket(CRTPPacket* p){
+	/* targetValues represent the new data received in this instant
+	 */
+	struct CommanderAdvancedCrtpValues targetValues = targetVal[side];
+	struct CommanderAdvancedCrtpValues currentValues = targetVal[!side];
+
+	uint16_t targetX = targetValues.x - currentValues.x;
+	uint16_t targetY = targetValues.y - currentValues.y;
+	double yawAngle = atan2(targetX, targetY);
+	// TODO: translate yawAngle to yaw and assign it to the target values (targetValues.yaw)
+
+	p -> data[0] = targetValues.id;
+	p -> data[3] = targetValues.rssi;
+	memcpy(&(p -> data[4]), &targetValues.x, 2);
+	memcpy(&(p -> data[6]), &targetValues.y, 2);
+	memcpy(&(p -> data[8]), &targetValues.z, 2);
+	memcpy(&(p -> data[10]), &targetValues.roll, 4);
+	memcpy(&(p -> data[14]), &targetValues.pitch, 4);
+	memcpy(&(p -> data[18]), &targetValues.yaw, 4);
+	memcpy(&(p -> data[22]), &targetValues.thrust, 2);
 }
 
 void commanderAdvancedWatchdog(void) {
