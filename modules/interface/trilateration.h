@@ -6,43 +6,35 @@
 
 typedef struct coordinate coordinate;
 struct coordinate {
-	double x;
-	double y;
-	double z;
+	float  x;
+	float  y;
+	float  z;
 };
 
-/* Return the difference of two vectors, (vector1 - vector2). */
-coordinate vdiff( coordinate vector1,  coordinate vector2);
+void vdiff(coordinate vector1, coordinate vector2, coordinate *result);
 
-/* Return the sum of two vectors. */
-coordinate vsum( coordinate vector1,  coordinate vector2);
+void vsum(coordinate vector1, coordinate vector2, coordinate *result);
 
-/* Multiply vector by a number. */
-coordinate vmul( coordinate vector,  double n);
+void vmul(coordinate vector, float n, coordinate *result) ;
 
-/* Divide vector by a number. */
-coordinate vdiv( coordinate vector,  double n);
+void vadd(coordinate vector, float n, coordinate *result);
 
-/* Return the Euclidean norm. */
-double vnorm( coordinate vector);
+void vdiv(coordinate vector, float n, coordinate *result);
 
-/* Return the dot product of two vectors. */
-double dot( coordinate vector1,  coordinate vector2);
+float  vnorm( coordinate vector);
 
-/* Replace vector with its cross product with another vector. */
-coordinate cross( coordinate vector1,  coordinate vector2);
+float dot( coordinate vector1,  coordinate vector2);
 
-int trilateration(coordinate *  result1, coordinate *  result2,
-		 coordinate p1,  double r1,  coordinate p2,
-		 double r2,  coordinate p3,  double r3,
-		 double maxzero);
+void cross( coordinate vector1,  coordinate vector2, coordinate *result);
 
-struct coordinate getResult( coordinate result1,  coordinate result2,
-		 coordinate oldPosition);
 
-struct coordinate vadd( coordinate vector,  int n);
+int trilateration(coordinate * result1, coordinate * result2,
+		coordinate p1, float  r1, coordinate p2,
+		float  r2, coordinate p3, float  r3,
+		float  maxzero);
 
-double computeDistance(struct coordinate a, struct coordinate b);
+struct coordinate getResult(const coordinate result1, const coordinate result2,
+		const coordinate oldPosition);
 
 void test(coordinate terms[], coordinate * oldTarget, coordinate * target);
 
