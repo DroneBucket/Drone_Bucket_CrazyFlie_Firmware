@@ -153,7 +153,7 @@ static void commanderAdvancedCrtpCB(CRTPPacket* pk) {
 //TODO
 void processCommanderAdvanced(void) {
 	test(terms,&oldTarget,&target);
-	DEBUG_PRINT("\n result %f %f %f \n", target.x, target.y, target.z);
+	DEBUG_PRINT("\n target %f %f %f \n", target.x, target.y, target.z);
 	DEBUG_PRINT("\n result %f %f %f \n", oldTarget.x, oldTarget.y, oldTarget.z);
 }
 

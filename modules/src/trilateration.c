@@ -48,13 +48,8 @@ void cross( coordinate vector1,  coordinate vector2, coordinate * result) {
 	result->z = vector1.x * vector2.y - vector1.y * vector2.x;
 }
 
-float computeDistance(struct coordinate a, struct coordinate b) {
-	float result = 0.0;
-	float x = pow(a.x - b.x, 2);
-	float y = pow(a.y - b.y, 2);
-	float z = pow(a.z - b.z, 2);
-	result = sqrt(x + y + z);
-	return result;
+void computeDistance(struct coordinate a, struct coordinate b, float *distance) {
+	*distance = sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2) + pow(a.z - b.z, 2));
 }
 
 void vadd(coordinate * vector,int n) {
@@ -75,8 +70,8 @@ int trilateration(coordinate *  result1, coordinate *  result2,
 		coordinate p1,  float r1,  coordinate p2,
 		float r2,  coordinate p3,  float r3,
 		float maxzero) {
-	coordinate ex, ey, ez;
-	float h, i, j;
+	static coordinate ex, ey, ez;
+	static float h, i, j;
 
 	/* h = |p2 - p1|, ex = (p2 - p1) / |p2 - p1| */
 	vdiff(p2, p1, &ex);
@@ -190,16 +185,17 @@ struct coordinate getResult( coordinate result1,  coordinate result2,
 }
 
 void test(coordinate terms[], coordinate * oldTarget, coordinate * target){
-	int  k;
-	double distance[3];
-	struct coordinate o1, o2;
+	static int  k;
+	static float distance[3];
+	static struct coordinate o1, o2;
 	for (k = 0; k < 3; k++) {
-		distance[k] = computeDistance(*target, terms[k]);
+		computeDistance(*target, terms[k], &distance[k]);
 	}
 	trilateration(&o1, &o2, terms[0], distance[0], terms[1], distance[1],
 			terms[2], distance[2], MAXZERO);
 	*oldTarget  = getResult(o1, o2, *target);
-	int translate = 300;
+	int translate = target->x / 300;
+
 	if ((translate % 2) == 0) {
 		vadd(target, translate);
 		vadd(&terms[0], translate);

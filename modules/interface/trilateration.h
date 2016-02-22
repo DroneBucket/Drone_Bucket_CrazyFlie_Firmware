@@ -31,7 +31,7 @@ void dot( coordinate vector1,  coordinate vector2, float * result);
 /* Replace vector with its cross product with another vector. */
 void cross( coordinate vector1,  coordinate vector2, coordinate * result);
 
-float computeDistance(struct coordinate a, struct coordinate b);
+void computeDistance(struct coordinate a, struct coordinate b, float *distance);
 
 void vadd(coordinate * vector,int n);
 
