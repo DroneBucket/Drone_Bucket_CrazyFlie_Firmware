@@ -201,15 +201,15 @@ void test(coordinate terms[], coordinate * oldTarget, coordinate * target){
 	*oldTarget  = getResult(o1, o2, *target);
 	int translate = 300;
 	if ((translate % 2) == 0) {
-		vadd(*target, translate, target);
-		vadd(terms[0], translate, &terms[0]);
-		vadd(terms[1], translate, &terms[1]);
-		vadd(terms[2], translate, &terms[2]);
+		vadd(target, translate);
+		vadd(&terms[0], translate);
+		vadd(&terms[1], translate);
+		vadd(&terms[2], translate);
 	}
 	else {
-		vadd(*target, -translate, target);
-		vadd(terms[0], -translate, &terms[0]);
-		vadd(terms[1], -translate, &terms[1]);
-		vadd(terms[2], -translate, &terms[2]);
+		vadd(target, -translate);
+		vadd(&terms[0], -translate);
+		vadd(&terms[1], -translate);
+		vadd(&terms[2], -translate);
 	}
 }
