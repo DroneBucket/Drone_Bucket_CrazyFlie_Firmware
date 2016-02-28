@@ -66,15 +66,7 @@ struct trilaterationValues {
 
 struct trilaterationValues dronePosition[3];
 struct coordinate target, terms[3], oldTarget;
-/*
- struct CommanderAdvancedCrtpValues
- {
- float roll;
- float pitch;
- float yaw;
- uint16_t thrust;
- } __attribute__((packed));
- */
+
 
 static struct CommanderAdvancedCrtpValues targetVal[2];
 static struct CommanderAdvancedCrtpValues lastReceived;
@@ -108,18 +100,6 @@ void commanderAdvancedInit(void) {
 	isInactive = true;
 	thrustLocked = true;
 	isInit = true;
-	//srand(time(NULL));
-	int maxValue = 320;
-	target.x = 1000;
-	target.y = 1000;
-	target.z = 1500;
-	oldTarget = target;
-	int k = 0;
-	for (k = 0; k < 3; k++) {
-		terms[k].x = 500 * (k + 1);
-		terms[k].y = 500 * (k + 1);
-		terms[k].z = 500 * (k + 1);
-	}
 
 }
 
@@ -130,36 +110,43 @@ bool commanderAdvancedTest(void) {
 
 static void commanderAdvancedCrtpCB(CRTPPacket* pk) {
 	targetVal[!side] = *((struct CommanderAdvancedCrtpValues*) pk->data);
-	side = !side;
-	lastReceived = targetVal[side];
-	if(targetVal[side].id != 0){
-		DEBUG_PRINT("\n %d receive a trame from ID %d \n", CRAZYFLIE_ID, targetVal[side].id);
+	lastReceived = targetVal[!side];
+	if(targetVal[!side].pid > targetVal[side].pid){
+		side = !side;
+		lastReceived = targetVal[side];
+		if(targetVal[side].id != 0){
+			//DEBUG_PRINT("\n %d receive a trame from ID %d \n", CRAZYFLIE_ID, targetVal[side].id);
+		}
+		targetVal[side].id = CRAZYFLIE_ID;
+
+		if (targetVal[side].thrust == 0) {
+			thrustLocked = false;
+		}
+
+		createCommanderAdvancedPacket(pk);
+
+		processCommanderAdvanced();
+
+		crtpSendPacket(pk);
 	}
-	targetVal[side].id = CRAZYFLIE_ID;
-
-	if (targetVal[side].thrust == 0) {
-		thrustLocked = false;
+	else{
+		processCommanderAdvanced();
 	}
-
-	//TODO
-	//Appliquer des calculs (triangularisation) pour redefinir x, y, z
-	processCommanderAdvanced();
-
-	createCommanderAdvancedPacket(pk);
-	crtpSendPacket(pk);
 	commanderAdvancedWatchdogReset();
 }
 
-//TODO
+//Compute trilateration with the last package received
 void processCommanderAdvanced(void) {
+	/*
 	test(terms,&oldTarget,&target);
-	DEBUG_PRINT("\n target %f %f %f \n", target.x, target.y, target.z);
-	DEBUG_PRINT("\n result %f %f %f \n", oldTarget.x, oldTarget.y, oldTarget.z);
+	DEBUG_PRINT("target %f %f %f \n", target.x, target.y, target.z);
+	DEBUG_PRINT("result %f %f %f \n", oldTarget.x, oldTarget.y, oldTarget.z);
+	*/
+
 }
 
 void createCommanderAdvancedPacket(CRTPPacket* p) {
 	struct CommanderAdvancedCrtpValues currentValues = targetVal[side];
-
 	uint8_t rssi;
 	radiolinkGetRSSI(&rssi);
 	p->data[0] = currentValues.id;
@@ -171,6 +158,7 @@ void createCommanderAdvancedPacket(CRTPPacket* p) {
 	memcpy(&(p->data[14]), &currentValues.pitch, 4);
 	memcpy(&(p->data[18]), &currentValues.yaw, 4);
 	memcpy(&(p->data[22]), &currentValues.thrust, 2);
+	DEBUG_PRINT("-- ID_PACKET [%d]: %d \n", currentValues.pid, rssi);
 }
 
 void commanderAdvancedWatchdog(void) {

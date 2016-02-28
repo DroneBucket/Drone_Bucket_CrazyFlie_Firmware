@@ -9,6 +9,20 @@
 
 CFLAGS += $(EXTRA_CFLAGS)
 
+ROLE=0                # Crazyflie is a slave
+DADDRESS=0xC2C2C2C2C2   # Address of the pipe between dongle and CF
+CADDRESS=0xE7E7E7E7E7   # Address of the pipe between CFs
+ADDRESS=${CADDRESS}
+ID=0                # ID of Crazyflie
+
+CFLAGS+= -DID=${ID}
+
+ifeq (${ROLE}, 1)
+ROLE=1
+ADDRESS=${DADDRESS}
+endif
+CFLAGS+= -DADDRESS=${ADDRESS}
+
 ######### JTAG and environment configuration ##########
 OPENOCD           ?= openocd
 OPENOCD_INTERFACE ?= interface/stlink-v2.cfg
@@ -305,6 +319,12 @@ endif
 ifeq ($(CLOAD), 1)
 	@echo "Crazyloader build!"
 endif
+ifeq ($(strip $(ROLE)),1)
+	@echo "Crazyflie master !"
+else
+	@echo "Crazyflie slave !"
+endif
+	@echo "Start on pipe " $(ADDRESS)
 
 
 size: compile

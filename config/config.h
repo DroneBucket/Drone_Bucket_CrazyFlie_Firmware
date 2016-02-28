@@ -142,10 +142,18 @@
 //The radio channel. From 0 to 125
 #define RADIO_CHANNEL 80
 #define RADIO_DATARATE RADIO_RATE_250K
-#define RADIO_ADDRESS 0xE7E7E7E7E7ULL
 
-//Configuration of the CF
-#define CRAZYFLIE_ID 1
+#ifdef ADDRESS
+#define RADIO_ADDRESS ADDRESS
+#else
+#define RADIO_ADDRESS 0xC2C2C2C2C2ULL
+#endif
+
+#ifdef ID
+#define CRAZYFLIE_ID ID
+#else
+#define CRAZYFLIE_ID 0
+#endif
 
 /**
  * \def ACTIVATE_AUTO_SHUTDOWN
